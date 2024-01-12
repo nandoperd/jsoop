@@ -1,0 +1,115 @@
+<script>
+    // Constructor function
+    // huruf depan menggunakan kapital
+    function Orang(){
+        // membuat properti
+        this.namaDepan = ""
+        this.namaBelakang = ""
+        // membuat method
+        this.haloBang = function (nama) {
+            console.info(`Halo bang ${nama}, nama saya ${this.namaDepan}`)
+        }
+    }
+
+    // membuat object
+    const broker = new Orang()
+    // mengubah nilai properti
+    broker.namaDepan = "Broker"
+    broker.namaBelakang = "Kurniawan"
+    broker.haloBang("Jago")
+
+    const selundupan = new Orang()
+
+    // cek console
+    console.log(broker)
+    console.log(selundupan)
+</script>
+
+<script>
+    // membuat parameter
+    // mengganti kode di atas menjadi parameter
+    function Person(firstName, lastName){
+        this.firstName = firstName
+        this.lastName = lastName
+        this.hello = function (name) {
+            console.info(`Hello ${name}, My name is ${this.firstName}`)
+        }
+    }
+
+    badang = new Person("Badang", "Setiawan")
+    badang.hello("Guin")
+
+    console.log(broker)
+    console.log(selundupan)
+</script>
+
+<script>
+    // Constructor inheritance
+    function Bos(namaDepan){
+        this.namaDepan = namaDepan
+        this.lamar = function (nama) {
+            console.info(`Pagi ${nama}, perkenalkan saya ${this.namaDepan}`)
+        }
+    }
+
+    function Leader(namaDepan, namaBelakang){
+        this.namaBelakang = namaBelakang
+        // memanggil fungsi Bos
+        Bos.call(this, namaDepan)
+    }
+
+    // Menambahkan prototype
+    Leader.prototype.halo = function() {
+        console.info("Halo")
+    }
+
+    Leader.prototype.run = function() {
+        console.info(`${this.namaDepan} is running`)
+    }
+
+    const zeff = new Leader("Cheff", "Zeff")
+    zeff.halo()
+    zeff.run()
+    console.log(zeff)
+
+    const bruno = new Leader("Bruno", "Ibrahimovic")
+    // membuat prototype halo di atas ke object instance
+    bruno.halo = function(){
+        console.info("Hello")
+    }
+    bruno.halo()
+    // maka yang akan tampil pada halo adalah hello
+    // urutan pemanggilannya adalah : objct instance -> prototype -> prototype object
+    console.log(bruno)
+</script>
+
+<script>
+    // Prototype inheritance
+    function Karyawan(nama) {
+        this.nama = nama
+    }
+    function Manager(nama) {
+        this.nama = nama
+    }
+
+    // prototype inheritance
+    Manager.prototype = Object.create(Karyawan.prototype)
+
+    Manager.prototype.say = function(nama) {
+        console.info(`Halo ${nama}, Saya Manager ${this.nama}`)
+    }
+
+    Karyawan.prototype.say = function(nama) {
+        console.info(`Halo ${nama}, Saya Karyawan ${this.nama}`)
+    }
+
+    const karyawan = new Karyawan("Casemiro")
+    karyawan.say("Bissaka")
+
+    const manager = new Manager("Varane")
+    manager.say("Bissaka")
+
+    console.info(karyawan)
+    console.info(manager) // cek maka prototype nya adalah inheritance ke karyawan
+
+</script>

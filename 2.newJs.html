@@ -1,0 +1,440 @@
+<script>
+    // Class
+    // berbeda dengan constructor function, class tidak lagi menggunakan ()
+    class Orang {
+        
+    }
+    // catatan, di balik class ini, ada protoype yang sudah dijelaskan di oldJs
+
+    const hojlund = new Orang()
+    console.log(hojlund)
+</script>
+
+<script>
+    // Class constructor
+    class Club {
+        constructor(nama) {
+            console.info(`Club : ${nama}`)
+        }
+    }
+
+    const milan = new Club("AC Milan")
+    console.log(milan)
+</script>
+
+<script>
+    // Property constructor
+    class Madrid {
+        constructor (president, captain) {
+            this.president = president
+            this.captain = captain
+        }
+
+        // menambahkan method
+        halo(nama) {
+            console.info(`Halo ${nama}, saya pak ${this.president}`)
+        }
+    }
+
+    const madrid = new Madrid("Perez", "Ramos")
+    console.log(madrid)
+    console.log(madrid.president)
+    madrid.halo("Ronaldo") // memanggil method halo
+</script>
+
+<script>
+    // Class inheritance (extends)
+    class Bos {
+        bilang(nama) {
+            console.info(`halo ${nama}, saya bos ${this.nama}`)
+        }
+    }
+
+    class Manager extends Bos {
+        bilang(nama) {
+            console.info(`halo ${nama}, saya manager ${this.nama}`)
+        }
+    }
+
+    const joni = new Bos()
+    joni.nama = "Joni"
+    joni.bilang("Jono")
+    console.log(joni)
+
+    const toni = new Manager()
+    toni.nama = "Toni"
+    toni.bilang("Tono")
+    console.log(toni)
+</script>
+
+<script>
+    // Super constructor
+    class Ketua {
+        constructor(namaDepan) {
+            this.namaDepan = namaDepan
+        }
+
+        hai(nama) {
+            console.info(`Hai ${nama}, Saya ketua ${this.namaDepan}`)
+        }
+    }
+
+    class Kepala extends Ketua {
+        constructor(namaDepan, namaBelakang) {
+            // menggunakan super constructor
+            super(namaDepan)
+            this.namaBelakang = namaBelakang
+        }
+
+        hai(nama) {
+            console.info(`Hai ${nama}, Saya kepala ${this.namaDepan} ${this.namaBelakang}`)
+        }
+    }
+
+    const jojo = new Ketua("Jojo")
+    jojo.hai("Joji")
+
+    const toto = new Kepala("Toto", "Sutoto")
+    toto.hai("Toti")
+</script>
+
+<script>
+    // Super method
+    class Kotak {
+        // method
+        gambar() {
+            console.info("Gambar kotak")
+        }
+    }
+
+    class Bulat extends Kotak{
+        gambar() {
+            // super method
+            super.gambar()
+            console.info("Gambar bulat")
+        }
+    }
+
+    const bulat = new Bulat()
+    bulat.gambar() 
+</script>
+
+<script>
+    // Getter dan Setter
+    // cat : getter dan setter ini berjalan/memanggil ke prototype
+    class Zlatan {
+        constructor(namaDepan, namaBelakang) {
+            this.namaDepan = namaDepan
+            this.namaBelakang = namaBelakang
+        }
+
+        get namaPanjang() {
+            return `${this.namaDepan} ${this.namaBelakang}`
+        }
+
+        set namaPanjang(value) {
+            const result = value.split(" ")
+            this.namaDepan = result[0] 
+            this.namaBelakang = result[1] 
+        }
+    }
+
+    const zlatan = new Zlatan("Zlatan", "Ibrahimovic")
+    console.log(zlatan)
+    console.log(zlatan.namaPanjang)
+
+    zlatan.namaPanjang = "Zlatan Ibrahimovic"
+    console.log(zlatan)
+</script>
+
+<script>
+    // Public class field
+    class Owner {
+        // fields
+        namaDepan
+        namaBelakang
+        balance = 0 // berada di instance object bukan prototype
+
+        // menggunakan data fields di dalam constructor
+        constructor(namaDepan, namaBelakang) {
+            this.namaDepan = namaDepan
+            this.namaBelakang = namaBelakang
+        }
+    }
+
+    const broker = new Owner("Broker", "Kurniawan")
+    console.log(broker)
+</script>
+
+<script>
+    // Private class field (#)
+    // hanya bisa digunakan di dalam class dan tidak bisa diubah pada class lain
+    class Buyer {
+        #saldo = 0
+
+        tambah() {
+            this.#saldo++
+        }
+
+        kurang() {
+            this.#saldo--
+        }
+
+        get() {
+            return this.#saldo
+        }
+    }
+
+    const buyer = new Buyer()
+    buyer.tambah()
+    buyer.tambah()
+    buyer.tambah()
+    buyer.tambah()
+    buyer.kurang()
+    buyer.saldo = 100 // tidak akan merubah nilai #saldo
+    // buyer.#saldo = 100 // maka akan error
+    console.info(buyer.get())
+    console.log(buyer)
+</script>
+
+<script>
+    // Private method (#)
+    class Founder {
+        panggil(nama) {
+            if (nama) {
+                this.#pakeNama(nama)
+            } else {
+                this.#tanpaNama
+            }
+        }
+
+        #pakeNama(nama) {
+            console.info(`Halo ${nama}`)
+        }
+
+        #tanpaNama() {
+            console.info("Halo")
+        }
+    }
+
+    const drogba = new Founder("Drogba")
+    drogba.panggil("Eto'o")
+    // drogba.#pakeNama() // error
+</script>
+
+<script>
+    // Operator instance of
+    // instance of akan menghasilkan nilai boolean (true/false)
+    class Player {
+    }
+
+    class Coach {
+    }
+
+    class Pemain  extends Player {
+
+    }
+
+    const kaka = new Player()
+    const carlo = new Coach()
+
+    console.info(typeof kaka) // yang tampil adalah object
+    console.info(typeof carlo)
+
+    // pemanggilan yang benar (instance of)
+    console.info(kaka instanceof Player) // true
+    console.info(kaka instanceof Coach) // false
+
+    // instanceof class inheritance (cek apakah turunan dari class)
+    const pirlo = new Pemain()
+    console.info("Pirlo (Pemain): ", pirlo instanceof Pemain) // true
+    console.info("Pirlo (Coach): ", pirlo instanceof Coach) // false
+    console.info("Pirlo (Player): ", pirlo instanceof Player) // true (Pemain extends Player)
+</script>
+
+<script>
+    // Static class field
+    // static menjadikan properti ke dalam class
+    class Buku {
+        static nama = "Perjalanan Kambing Silver"
+        static versi = 13.0
+        static penulis = "Broker Budiman"
+    }
+
+    const buku = new Buku()
+    console.log(buku) // 3 variabel di atas menjadi milik class Buku bukan instance object nya
+    console.log(buku.nama) // undefined
+
+    // mengganti nilai static class field
+    Buku.versi = 13.7 // bisa diubah karena sifat static class field adalah global
+
+    // mengakses statis class field (langsung nama class nya)
+    console.log(Buku.nama)
+    console.log(Buku.versi)
+</script>
+
+<script>
+    // Static method
+    class Hitung {
+        static sum(...numbers) {
+            let total = 0
+            for (const number of numbers) {
+                total += number
+            }
+            return total
+        }
+    }
+
+    const result = Hitung.sum(1,1,1)
+    console.info(result)
+</script>
+
+<script>
+    // Error
+    // Throw error
+    class Kurang {
+        static sum(...numbers) {
+            // throw error
+            if(numbers.length === 0) {
+                throw new Error("Angka harus lebih dari 0")
+            }
+
+            let total = 0
+            for (const number of numbers) {
+                total -= number
+            }
+            return total
+        }
+    }
+
+    console.info("Broker")
+    console.info(Kurang.sum())
+    console.info("Broker") // kode setelahnya (error) tidak akan berjalan
+</script>
+
+<script>
+    // Error handling
+    class Tambah {
+        static sum(...numbers) {
+            if(numbers.length === 0) {
+                throw new Error("Angka harus > 0")
+            }
+
+            let total = 0
+            for(const number of numbers) {
+                total += number
+            }
+            return total
+        }
+    }
+    try {
+        console.info(Tambah.sum(1,2))
+        console.info("Broker")
+    } catch (error) {
+        console.info(`Errornya : ${error.message}`)
+    } finally { // block finally
+        console.info("Program selesai")
+    }
+</script>
+
+<script>
+    // Try finally
+    class Coba {
+        #counter = 0
+
+        next() {
+            try {
+                return this.#counter
+            } finally {
+                this.#counter++
+            }
+        }
+    }
+
+    const coba = new Coba()
+    console.info(coba.next())
+    console.info(coba.next())
+    console.info(coba.next())
+</script>
+
+<script>
+    // Class error manual
+    // membuat class validasi error
+    class ValidasiError extends Error {
+        constructor(message, field) {
+            super(message)
+            this.field = field
+        }
+    }
+
+    class Kali {
+        static sum(...numbers) {
+            if(numbers.length === 0) {
+                throw new ValidasiError("Angka harus > 0", "numbers")
+            }
+
+            let total = 1
+            for(const number of numbers) {
+                total *= number
+            }
+            return total
+        }
+    }
+    try {
+        console.info(Kali.sum())
+        console.info("Broker")
+    } catch (error) {
+        if (error instanceof ValidasiError) {
+            console.error(`Terjadi error pada field : ${error.field}, keterangan : ${error.message}`)
+        } else {
+            console.info(`Errornya : ${error.message}`)
+        }
+    } finally { // block finally
+        console.info("Program selesai")
+    }
+</script>
+
+<script>
+    // Iterable dan Iterator [Symbol.iterator]
+    class CounterIteratorResult {
+        constructor(value, done) {
+            this.value = value
+            this.done = done
+        }
+    }
+
+    class CounterIterator {
+        constructor(value, max) {
+            this.value = value
+            this.max = max
+        }
+
+        next() {
+            try {
+                if (this.value > this.max) {
+                    return new CounterIteratorResult(this.value, true)
+                } else {
+                    return new CounterIteratorResult(this.value, false)
+                }
+            } finally {
+                this.value++
+            }
+        }
+    }
+
+    class Counter {
+        constructor(value, max) {
+            this.value = value
+            this.max = max
+        }
+
+        [Symbol.iterator]() {
+            return new CounterIterator(this.value, this.max)
+        }
+    }
+
+    const counter = new Counter(1,10)
+    for(const element of counter) {
+        console.info(element)
+    }
+</script>
